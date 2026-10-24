@@ -107,6 +107,20 @@ gerador-curriculo/
 - Enquanto os models do João não ficam prontos, o Renan pode montar os 5 modelos em HTML estático com dados de exemplo e depois trocar pelas variáveis do Django.
 - Cada pessoa mexe principalmente nos próprios arquivos, o que evita conflito no Git.
 
+## Fluxo Git
+- **`main`:** só versões entregues e publicadas (v1, v1.1...). Ninguém faz commit direto nele.
+- **`develop`:** onde as tarefas são juntadas e testadas.
+- **Branch por tarefa:** sai do `develop`, com o nome `nome/tarefa` (ex.: `joao/models`), e volta por Pull Request para o `develop`, revisado por outro integrante.
+- **Publicação:** quando o `develop` estiver estável, ele é juntado no `main` por PR, e o merge recebe uma tag (`v1.0`, `v1.1`).
+
+```
+git checkout develop
+git pull
+git checkout -b joao/models
+# ... commits ...
+git push -u origin joao/models   # depois abrir PR para develop no GitHub
+```
+
 Cada integrante registra no próprio diário o que fez, as decisões tomadas e os problemas encontrados.
 
 ## Fora do escopo (por enquanto)
