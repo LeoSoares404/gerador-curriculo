@@ -1,0 +1,31 @@
+/* Estilos da folha do currículo (todos os modelos). Cada modelo pode ter
+   regras próprias usando a classe do body: .modelo-classico, .modelo-moderno ... */
+
+body { background: #e9ecef; }
+
+.folha {
+  background: #fff;
+  width: 210mm;
+  min-height: 297mm;
+  max-width: 100%;
+  margin: 1rem auto;
+  padding: 15mm;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+}
+
+.barra { text-align: center; padding-top: 1rem; }
+
+.folha h1 { font-size: 1.8rem; margin-bottom: .25rem; }
+.folha h2 { font-size: 1.1rem; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: .2rem; margin-top: 1.2rem; }
+.folha .contato { margin: 0; color: #555; }
+.folha .item { margin-bottom: .6rem; }
+.folha .periodo { float: right; color: #555; }
+.folha p { margin-bottom: .2rem; }
+
+@page { size: A4; margin: 0; }
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; }
+  .folha { margin: 0; box-shadow: none; }
+}
