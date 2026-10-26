@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+<div class="text-center py-5">
+  <h1 class="display-5 fw-bold">Seu currículo pronto em minutos</h1>
+  <p class="lead text-secondary">Preencha seus dados, escolha um dos 5 modelos e baixe em PDF.</p>
+  <a class="btn btn-primary btn-lg" href="{% if user.is_authenticated %}{% url 'painel' %}{% else %}{% url 'cadastro' %}{% endif %}">Criar meu currículo</a>
+</div>
+{% endblock %}
