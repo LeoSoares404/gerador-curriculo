@@ -16,14 +16,6 @@ class Curriculo(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='curriculos'
     )
     data_nascimento = models.DateField('data de nascimento', null=True, blank=True)
-    @property
-    def idade(self):
-        if not self.data_nascimento:
-            return None
-        hoje = date.today()
-        return hoje.year - self.data_nascimento.year - (
-            (hoje.month, hoje.day) < (self.data_nascimento.month, self.data_nascimento.day)
-    )
     titulo = models.CharField('título', max_length=100)  # só aparece no painel
     modelo = models.CharField(max_length=20, choices=MODELOS, default='classico')
 
@@ -45,6 +37,15 @@ class Curriculo(models.Model):
 
     def __str__(self):
         return f'{self.titulo} ({self.usuario})'
+
+    @property
+    def idade(self):
+        if not self.data_nascimento:
+            return None
+        hoje = date.today()
+        return hoje.year - self.data_nascimento.year - (
+            (hoje.month, hoje.day) < (self.data_nascimento.month, self.data_nascimento.day)
+        )
 
 
 class Experiencia(models.Model):

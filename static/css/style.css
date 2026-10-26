@@ -1,0 +1,5 @@
+/* Estilos globais — Renan completa a identidade visual */
+
+@media print {
+  .no-print { display: none !important; }
+}

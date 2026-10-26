@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block titulo %}Meus currículos{% endblock %}
+{% block conteudo %}
+<h1 class="h3 mb-3">Meus currículos</h1>
+<ul class="list-group">
+  {% for c in curriculos %}
+    <li class="list-group-item">{{ c.titulo }} <small class="text-secondary">— {{ c.get_modelo_display }}</small></li>
+  {% empty %}
+    <li class="list-group-item text-secondary">Você ainda não tem currículos.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
