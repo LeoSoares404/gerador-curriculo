@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -19,13 +20,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-26s)7yy4$(s2_0ax7w90qagfyt5^-gae#cad6c3hvq93x#1#p-'
+# Em produção, defina as variáveis de ambiente (veja .env.example).
+# Sem elas, o projeto roda em modo desenvolvimento.
+DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Chave padrão só para desenvolvimento: ela já é pública no GitHub.
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-inseguro-nao-usar-em-producao')
+if not DEBUG and SECRET_KEY.startswith('dev-'):
+    raise RuntimeError('Defina DJANGO_SECRET_KEY para rodar com DEBUG desligado.')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+
+# Em produção (HTTPS), cookies de login e CSRF só trafegam criptografados
+SESSION_COOKIE_SECURE = CSRF_COOKIE_SECURE = not DEBUG
 
 
 # Application definition
