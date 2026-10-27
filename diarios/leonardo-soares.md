@@ -33,6 +33,23 @@ Uma entrada por dia de trabalho, a mais recente no topo. Copie o modelo abaixo.
 
 <!-- novas entradas aqui -->
 
+### 2026-10-26 (2)
+**O que fiz:**
+- `settings.py` lê `DJANGO_DEBUG`, `DJANGO_SECRET_KEY` e `DJANGO_ALLOWED_HOSTS` de variáveis de ambiente
+- Sem variáveis o projeto roda em modo desenvolvimento, então ninguém da equipe precisa configurar nada
+- Com `DEBUG` desligado e sem chave, o projeto não sobe e mostra um erro claro
+- Cookies de sessão e CSRF só por HTTPS em produção
+- `.env.example` documentando as variáveis
+- Antes, criei a estrutura dos 5 modelos com a página `/modelos/<nome>/exemplo/` para o Renan testar
+
+**Decisões / por quê:**
+- `os.environ` puro em vez da biblioteca python-dotenv: os sites de hospedagem já injetam as variáveis, então não é preciso dependência nova
+- A chave antiga foi para o GitHub (repositório público), então em produção é obrigatório gerar uma chave nova
+
+**Próximos passos (no deploy):**
+- `check --deploy` ainda aponta: HTTPS redirect/HSTS (depende da hospedagem) e backend de e-mail (só se usarmos recuperação de senha)
+- Testes de segurança quando o editor do João entrar
+
 ### 2026-10-26
 **O que fiz:**
 - Criei o projeto Django (`config`) e o app `contas` na raiz, conforme o ESTRUTURA.md
