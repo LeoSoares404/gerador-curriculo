@@ -1,2 +1,38 @@
-{% extends 'curriculos/modelos/classico.html' %}
-{% comment %} TODO Renan: modelo minimalista — por enquanto herda o clássico. Substitua pelo layout próprio. {% endcomment %}
+<div class="cv-template cv-minimalista">
+    <header class="cv-header cv-header-minimal">
+        <h1>{{ curriculo.nome_completo|default:user.get_full_name|default:user.username }}</h1>
+        <p class="subtitle">{{ curriculo.cargo_pretendido }}</p>
+        <p class="cv-contact-line">
+            {% if curriculo.email %}{{ curriculo.email }} • {% endif %}
+            {% if curriculo.telefone %}{{ curriculo.telefone }} • {% endif %}
+            {% if curriculo.cidade %}{{ curriculo.cidade }}{% if curriculo.estado %}-{{ curriculo.estado }}{% endif %}{% endif %}
+        </p>
+    </header>
+
+    <hr class="minimal-hr">
+
+    {% if curriculo.resumo %}
+    <section class="cv-section">
+        <h2>Perfil</h2>
+        <p>{{ curriculo.resumo|linebreaks }}</p>
+    </section>
+    {% endif %}
+
+    {% if curriculo.experiencia %}
+    <section class="cv-section">
+        <h2>Histórico Profissional</h2>
+        <div class="cv-content">
+            {{ curriculo.experiencia|linebreaks }}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if curriculo.formacao %}
+    <section class="cv-section">
+        <h2>Formação</h2>
+        <div class="cv-content">
+            {{ curriculo.formacao|linebreaks }}
+        </div>
+    </section>
+    {% endif %}
+</div>

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}{% if form.instance.pk %}Editar Currículo{% else %}Novo Currículo{% endif %} - GeradorCV{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+    <div class="form-header">
+        <h2>{% if form.instance.pk %}✏️ Editar Currículo{% else %}➕ Criar Novo Currículo{% endif %}</h2>
+        <p class="text-muted">Preencha as informações abaixo para gerar seu currículo profissional.</p>
+    </div>
+
+    <form method="post" class="card-form" id="curriculo-form">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div class="form-section">
+            <h3>Informações do Documento</h3>
+            <div class="form-grid">
+                {% for field in form %}
+                    <div class="form-group {% if field.name == 'resumo' or field.name == 'experiencia' %}full-width{% endif %}">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        
+                        {% if field.name == 'resumo' or field.name == 'sobre' %}
+                            <div class="char-count text-right">
+                                <small><span id="char-counter">0</span>/500 caracteres</small>
+                            </div>
+                        {% endif %}
+
+                        {% if field.help_text %}
+                            <small class="help-text">{{ field.help_text }}</small>
+                        {% endif %}
+
+                        {% if field.errors %}
+                            <div class="field-error">{{ field.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">💾 Salvar Currículo</button>
+            <a href="{% url 'curriculos:painel' %}" class="btn btn-outline">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // 1. Contador de caracteres para Textarea (Resumo/Sobre)
+        const textarea = document.querySelector("textarea[name='resumo']") || document.querySelector("textarea");
+        const charCounter = document.getElementById("char-counter");
+
+        if (textarea && charCounter) {
+            const updateCount = () => {
+                const currentLength = textarea.value.length;
+                charCounter.textContent = currentLength;
+                
+                // Feedback visual se passar de 500 caracteres
+                if (currentLength > 500) {
+                    charCounter.parentElement.style.color = "var(--danger-color)";
+                } else {
+                    charCounter.parentElement.style.color = "#64748b";
+                }
+            };
+
+            textarea.addEventListener("input", updateCount);
+            updateCount(); // Executa ao carregar para caso já tenha texto editado
+        }
+    });
+</script>
+{% endblock %}

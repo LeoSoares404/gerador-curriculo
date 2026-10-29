@@ -1,31 +1,194 @@
-/* Estilos da folha do currículo (todos os modelos). Cada modelo pode ter
-   regras próprias usando a classe do body: .modelo-classico, .modelo-moderno ... */
-
-body { background: #e9ecef; }
-
-.folha {
-  background: #fff;
-  width: 210mm;
-  min-height: 297mm;
-  max-width: 100%;
-  margin: 1rem auto;
-  padding: 15mm;
-  box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+/* Layout da Folha e Preview */
+.preview-actions {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
 }
 
-.barra { text-align: center; padding-top: 1rem; }
+.actions-group {
+    display: flex;
+    gap: 0.5rem;
+}
 
-.folha h1 { font-size: 1.8rem; margin-bottom: .25rem; }
-.folha h2 { font-size: 1.1rem; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: .2rem; margin-top: 1.2rem; }
-.folha .contato { margin: 0; color: #555; }
-.folha .item { margin-bottom: .6rem; }
-.folha .periodo { float: right; color: #555; }
-.folha p { margin-bottom: .2rem; }
+.curriculo-paper-wrapper {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 3rem;
+}
 
-@page { size: A4; margin: 0; }
+/* Simulador de Papel A4 na Tela */
+.curriculo-paper {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    background: #ffffff;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #1e293b;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+}
 
+/* Estilos Globais dos Modelos */
+.cv-header {
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.cv-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: #0f172a;
+}
+
+.cv-header .subtitle {
+    font-size: 1.1rem;
+    color: #2563eb;
+    margin-top: 0.25rem;
+}
+
+.cv-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: #475569;
+}
+
+.cv-section {
+    margin-bottom: 1.5rem;
+}
+
+.cv-section h2 {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #1e293b;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.75rem;
+}
+
+.cv-item {
+    margin-bottom: 1rem;
+}
+
+.cv-item-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+}
+
+.cv-item-sub {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Regras Estritas de Impressão (PDF/Impressora) */
 @media print {
-  .no-print { display: none !important; }
-  body { background: #fff; }
-  .folha { margin: 0; box-shadow: none; }
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .no-print, 
+    .navbar, 
+    .footer, 
+    .preview-actions {
+        display: none !important;
+    }
+
+    .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .curriculo-paper-wrapper {
+        padding: 0;
+    }
+
+    .curriculo-paper {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        padding: 15mm !important;
+    }
+}
+
+/* Customizações por Modelo */
+
+/* Modelo Clássico */
+.cv-classico .cv-header {
+    text-align: center;
+    border-bottom: 2px solid #1e293b;
+}
+
+.cv-classico .cv-section h2 {
+    color: #1e293b;
+    border-bottom: 1px solid #1e293b;
+}
+
+/* Modelo Moderno */
+.cv-header-modern {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: #f1f5f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 5px solid #2563eb;
+    border-bottom: none;
+}
+
+.cv-contact-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+}
+
+.cv-moderno .cv-section h2 {
+    color: #2563eb;
+    border-bottom: 2px solid #93c5fd;
+}
+
+/* Modelo Minimalista */
+.cv-header-minimal {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.cv-header-minimal h1 {
+    font-size: 2.2rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+}
+
+.minimal-hr {
+    border: none;
+    border-top: 1px solid #cbd5e1;
+    margin: 1.5rem 0;
+}
+
+.cv-minimalista .cv-section h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #64748b;
+    border-bottom: none;
+    margin-bottom: 0.25rem;
 }

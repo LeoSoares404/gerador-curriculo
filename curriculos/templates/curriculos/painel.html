@@ -1,12 +1,31 @@
-{% extends 'base.html' %}
-{% block titulo %}Meus currículos{% endblock %}
-{% block conteudo %}
-<h1 class="h3 mb-3">Meus currículos</h1>
-<ul class="list-group">
-  {% for c in curriculos %}
-    <li class="list-group-item">{{ c.titulo }} <small class="text-secondary">— {{ c.get_modelo_display }}</small></li>
-  {% empty %}
-    <li class="list-group-item text-secondary">Você ainda não tem currículos.</li>
-  {% endfor %}
-</ul>
+{% extends "base.html" %}
+
+{% block title %}Meu Painel - GeradorCV{% endblock %}
+
+{% block content %}
+<div class="painel-header d-flex justify-between align-center">
+    <h2>Meus Currículos</h2>
+    <a href="{% url 'curriculos:criar' %}" class="btn btn-primary">+ Criar Novo Currículo</a>
+</div>
+
+{% if curriculos %}
+    <div class="grid-cards">
+        {% for curriculo in curriculos %}
+            <div class="card">
+                <h3>{{ curriculo.titulo|default:"Currículo sem título" }}</h3>
+                <p class="text-muted">Última atualização: {{ curriculo.atualizado_em|date:"d/m/Y H:i" }}</p>
+                <div class="card-actions">
+                    <a href="{% url 'curriculos:visualizar' curriculo.pk %}" class="btn btn-sm btn-outline">Visualizar</a>
+                    <a href="{% url 'curriculos:editar' curriculo.pk %}" class="btn btn-sm">Editar</a>
+                    <a href="{% url 'curriculos:deletar' curriculo.pk %}" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state text-center">
+        <p>Você ainda não possui nenhum currículo criado.</p>
+        <a href="{% url 'curriculos:criar' %}" class="btn btn-primary">Criar Meu Primeiro Currículo</a>
+    </div>
+{% endif %}
 {% endblock %}

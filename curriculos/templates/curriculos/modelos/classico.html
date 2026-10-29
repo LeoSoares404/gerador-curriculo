@@ -1,88 +1,45 @@
-{% extends 'curriculos/modelos/_base.html' %}
-{% comment %}
-  Variáveis disponíveis (as mesmas no exemplo e no currículo real):
-  curriculo   -> nome, email, telefone, cidade, linkedin, site, resumo, idade, data_nascimento
-  experiencias, formacoes, habilidades, idiomas, cursos, projetos -> listas
-  Níveis/escolhas em texto: item.get_nivel_display
-{% endcomment %}
+<div class="cv-template cv-classico">
+    <header class="cv-header text-center">
+        <h1>{{ curriculo.nome_completo|default:user.get_full_name|default:user.username }}</h1>
+        <p class="subtitle">{{ curriculo.cargo_pretendido }}</p>
+        
+        <div class="cv-contact justify-center">
+            {% if curriculo.email %}<span>📧 {{ curriculo.email }}</span>{% endif %}
+            {% if curriculo.telefone %}<span>📱 {{ curriculo.telefone }}</span>{% endif %}
+            {% if curriculo.cidade %}<span>📍 {{ curriculo.cidade }}{% if curriculo.estado %}/{{ curriculo.estado }}{% endif %}</span>{% endif %}
+            {% if curriculo.linkedin %}<span>🔗 {{ curriculo.linkedin }}</span>{% endif %}
+        </div>
+    </header>
 
-{% block curriculo %}
-<header class="mb-4">
-  <h1>{{ curriculo.nome }}</h1>
-  <p class="contato">
-    {{ curriculo.email }}
-    {% if curriculo.telefone %} · {{ curriculo.telefone }}{% endif %}
-    {% if curriculo.cidade %} · {{ curriculo.cidade }}{% endif %}
-    {% if curriculo.idade %} · {{ curriculo.idade }} anos{% endif %}
-  </p>
-  <p class="contato">
-    {% if curriculo.linkedin %}<a href="{{ curriculo.linkedin }}">{{ curriculo.linkedin }}</a>{% endif %}
-    {% if curriculo.site %} · <a href="{{ curriculo.site }}">{{ curriculo.site }}</a>{% endif %}
-  </p>
-</header>
+    {% if curriculo.resumo %}
+    <section class="cv-section">
+        <h2>Resumo Profissional</h2>
+        <p>{{ curriculo.resumo|linebreaks }}</p>
+    </section>
+    {% endif %}
 
-{% if curriculo.resumo %}
-<section>
-  <h2>Resumo</h2>
-  <p>{{ curriculo.resumo|linebreaksbr }}</p>
-</section>
-{% endif %}
+    {% if curriculo.experiencia %}
+    <section class="cv-section">
+        <h2>Experiência Profissional</h2>
+        <div class="cv-content">
+            {{ curriculo.experiencia|linebreaks }}
+        </div>
+    </section>
+    {% endif %}
 
-{% if experiencias %}
-<section>
-  <h2>Experiência profissional</h2>
-  {% for e in experiencias %}
-    <div class="item">
-      <strong>{{ e.cargo }}</strong> — {{ e.empresa }}
-      <span class="periodo">{{ e.inicio|date:"m/Y" }} – {% if e.atual %}atual{% else %}{{ e.fim|date:"m/Y" }}{% endif %}</span>
-      {% if e.descricao %}<p>{{ e.descricao|linebreaksbr }}</p>{% endif %}
-    </div>
-  {% endfor %}
-</section>
-{% endif %}
+    {% if curriculo.formacao %}
+    <section class="cv-section">
+        <h2>Formação Académica</h2>
+        <div class="cv-content">
+            {{ curriculo.formacao|linebreaks }}
+        </div>
+    </section>
+    {% endif %}
 
-{% if formacoes %}
-<section>
-  <h2>Formação</h2>
-  {% for f in formacoes %}
-    <div class="item">
-      <strong>{{ f.curso }}</strong> ({{ f.get_nivel_display }}) — {{ f.instituicao }}
-      <span class="periodo">{{ f.inicio|date:"Y" }} – {% if f.fim %}{{ f.fim|date:"Y" }}{% else %}cursando{% endif %}</span>
-    </div>
-  {% endfor %}
-</section>
-{% endif %}
-
-{% if habilidades %}
-<section>
-  <h2>Habilidades</h2>
-  <ul>{% for h in habilidades %}<li>{{ h.nome }} — {{ h.get_nivel_display }}</li>{% endfor %}</ul>
-</section>
-{% endif %}
-
-{% if idiomas %}
-<section>
-  <h2>Idiomas</h2>
-  <ul>{% for i in idiomas %}<li>{{ i.idioma }} — {{ i.get_nivel_display }}</li>{% endfor %}</ul>
-</section>
-{% endif %}
-
-{% if cursos %}
-<section>
-  <h2>Cursos e certificações</h2>
-  <ul>{% for c in cursos %}<li>{{ c.nome }} — {{ c.instituicao }} ({{ c.ano }}{% if c.carga_horaria %}, {{ c.carga_horaria }}h{% endif %})</li>{% endfor %}</ul>
-</section>
-{% endif %}
-
-{% if projetos %}
-<section>
-  <h2>Projetos</h2>
-  {% for p in projetos %}
-    <div class="item">
-      <strong>{{ p.nome }}</strong>{% if p.link %} — <a href="{{ p.link }}">{{ p.link }}</a>{% endif %}
-      {% if p.descricao %}<p>{{ p.descricao }}</p>{% endif %}
-    </div>
-  {% endfor %}
-</section>
-{% endif %}
-{% endblock %}
+    {% if curriculo.habilidades %}
+    <section class="cv-section">
+        <h2>Habilidades e Competências</h2>
+        <p>{{ curriculo.habilidades }}</p>
+    </section>
+    {% endif %}
+</div>

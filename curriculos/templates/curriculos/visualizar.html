@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ curriculo.titulo|default:"Visualizar Currículo" }} - GeradorCV{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/curriculo.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="no-print preview-actions d-flex justify-between align-center">
+    <a href="{% url 'curriculos:painel' %}" class="btn btn-outline">&larr; Voltar ao Painel</a>
+    <div class="actions-group">
+        <a href="{% url 'curriculos:editar' curriculo.pk %}" class="btn btn-outline">✏️ Editar Dados</a>
+        <button onclick="window.print()" class="btn btn-primary">🖨️ Imprimir / Salvar PDF</button>
+    </div>
+</div>
+
+<!-- Folha de Papel A4 -->
+<div class="curriculo-paper-wrapper">
+    <div class="curriculo-paper">
+        {% if modelo_template %}
+            {% include modelo_template %}
+        {% else %}
+            {% include "curriculos/modelos/classico.html" %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

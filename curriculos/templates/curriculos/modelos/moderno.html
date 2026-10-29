@@ -1,2 +1,48 @@
-{% extends 'curriculos/modelos/classico.html' %}
-{% comment %} TODO Renan: modelo moderno — por enquanto herda o clássico. Substitua pelo layout próprio. {% endcomment %}
+<div class="cv-template cv-moderno">
+    <header class="cv-header cv-header-modern">
+        <div class="header-main">
+            <h1>{{ curriculo.nome_completo|default:user.get_full_name|default:user.username }}</h1>
+            <p class="subtitle">{{ curriculo.cargo_pretendido }}</p>
+        </div>
+        <div class="cv-contact cv-contact-vertical">
+            {% if curriculo.email %}<div>📧 {{ curriculo.email }}</div>{% endif %}
+            {% if curriculo.telefone %}<div>📱 {{ curriculo.telefone }}</div>{% endif %}
+            {% if curriculo.cidade %}<div>📍 {{ curriculo.cidade }}{% if curriculo.estado %}/{{ curriculo.estado }}{% endif %}</div>{% endif %}
+            {% if curriculo.linkedin %}<div>🔗 {{ curriculo.linkedin }}</div>{% endif %}
+        </div>
+    </header>
+
+    <div class="cv-body-modern">
+        {% if curriculo.resumo %}
+        <section class="cv-section">
+            <h2>Sobre Mim</h2>
+            <p>{{ curriculo.resumo|linebreaks }}</p>
+        </section>
+        {% endif %}
+
+        {% if curriculo.experiencia %}
+        <section class="cv-section">
+            <h2>Experiência</h2>
+            <div class="cv-content">
+                {{ curriculo.experiencia|linebreaks }}
+            </div>
+        </section>
+        {% endif %}
+
+        {% if curriculo.formacao %}
+        <section class="cv-section">
+            <h2>Educação</h2>
+            <div class="cv-content">
+                {{ curriculo.formacao|linebreaks }}
+            </div>
+        </section>
+        {% endif %}
+
+        {% if curriculo.habilidades %}
+        <section class="cv-section">
+            <h2>Competências</h2>
+            <p>{{ curriculo.habilidades }}</p>
+        </section>
+        {% endif %}
+    </div>
+</div>
